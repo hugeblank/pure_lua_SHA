@@ -132,7 +132,7 @@ if is_LuaJIT then
 else
    -- For vanilla Lua, "bit"/"bit32" libraries are searched in global namespace only.  No attempt is made to load a library if it's not loaded yet.
    for _, libname in ipairs(_VERSION == "Lua 5.2" and {"bit32", "bit"} or {"bit", "bit32"}) do
-      if type(_G[libname]) == "table" and _G[libname].bxor then
+      if type(_G[libname]) == "table" and _G[libname].rrotate then -- hi, janky patch here to make this lib prefer to use bit32 over bit, which has rrotate. ~hugeblank
          b = _G[libname]
          library_name = libname
          break
@@ -208,7 +208,7 @@ if branch == "FFI" or branch == "LJ" or branch == "LIB32" then
    SHL  = b.lshift              -- second argument is integer 0..31
    SHR  = b.rshift              -- second argument is integer 0..31
    ROL  = b.rol or b.lrotate    -- second argument is integer 0..31
-   ROR  = b.ror or b.rrotate    -- second argument is integer 0..31
+   ROR  = b.ror or b.rrotate   -- second argument is integer 0..31
    NOT  = b.bnot                -- only for LuaJIT
    NORM = b.tobit               -- only for LuaJIT
    HEX  = b.tohex               -- returns string of 8 lowercase hexadecimal digits
